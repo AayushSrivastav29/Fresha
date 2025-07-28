@@ -47,7 +47,7 @@ const findUser = async (req, res) => {
 //create
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, phone, gender, email, password, role } = req.body;
 
     const saltRounds = 10;
     bcrypt.hash(password, saltRounds, async (err, hash) => {
@@ -55,9 +55,11 @@ const createUser = async (req, res) => {
       console.log("err in pasword hashing", err);
       await Users.create({
         name: name,
+        phone: phone,
+        gender: gender.toLowerCase(),
         email: email,
         password: hash,
-        phone: phone,
+        role: role.toLowerCase(),
       });
       res.status(201).send(`user signed up successfully`);
     });
@@ -69,24 +71,24 @@ const createUser = async (req, res) => {
 
 //update user details not password
 const updateUser = async (req, res) => {
-    try {
-        const { name, email, phone } = req.body;
-        
-        //user from token
-        const user = req.user;
-        
-        //update
-        await user.update({
-            name,
-            email,
-            phone,
-        });
-        res.status(201).send(`${name} details updated successfully`);
+  try {
+    const { name, email, phone, gender } = req.body;
 
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send("Error in updating user's personal details")
-    }
+    //user from token
+    const user = req.user;
+
+    //update
+    await user.update({
+      name,
+      email,
+      phone,
+      gender,
+    });
+    res.status(201).send(`${name} details updated successfully`);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Error in updating user's personal details");
+  }
 };
 
 //update password
