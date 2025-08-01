@@ -15,11 +15,13 @@ require('./models');
 //import routes
 const userRoute = require('./routes/userRoute');
 const serviceRoute = require('./routes/serviceRoute');
+const staffRoute= require('./routes/staffRoute')
 const PORT = process.env.PORT;
 
 
 app.use('/api/user', userRoute);
 app.use('/api/service', serviceRoute);
+app.use('/api/staff', staffRoute);
 
 
 app.get("/", (req, res) => {

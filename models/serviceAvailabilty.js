@@ -8,15 +8,13 @@ const ServiceAvailability = sequelize.define("ServiceAvailability", {
     allowNull: false,
   },
   dayOfWeek: {
-    type: DataTypes.ENUM(
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday"
-    ),
+    type: DataTypes.TEXT,
+    get() {
+      return this.getDataValue("dayOfWeek")?.split(",") || [];
+    },
+    set(val) {
+      this.setDataValue("dayOfWeek", val.join(","));
+    },
     allowNull: false,
   },
   startTime: {
