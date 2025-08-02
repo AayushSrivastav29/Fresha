@@ -5,15 +5,18 @@ const checkAdmin = async (req, res, next) => {
     const { userId } = req.body;
 
     const user = await User.findByPk(userId);
-    if(!user){
-        return res.status(404).send('User not found');
+    if (!user) {
+      return res.status(404).send("User not found");
     }
-    if(user.role !== 'admin'){
-        return res.status(403).send('Access denied- User is not admin');   
+    if (user.role !== "admin") {
+      return res.status(403).send("Access denied- User is not admin");
     }
-    req.user= user;
+    req.user = user;
     next();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("error in finding user status");
+  }
 };
 
 module.exports = checkAdmin;

@@ -2,7 +2,7 @@ const express = require("express");
 const db = require("./utils/db-connection");
 const cors = require('cors');
 const path = require('path');
-
+require("dotenv").config();
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -16,12 +16,15 @@ require('./models');
 const userRoute = require('./routes/userRoute');
 const serviceRoute = require('./routes/serviceRoute');
 const staffRoute= require('./routes/staffRoute')
+const appointmentRoute= require('./routes/appointmentRoute')
+
 const PORT = process.env.PORT;
 
 
 app.use('/api/user', userRoute);
 app.use('/api/service', serviceRoute);
 app.use('/api/staff', staffRoute);
+app.use('/api/appointment', appointmentRoute);
 
 
 app.get("/", (req, res) => {
