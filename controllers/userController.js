@@ -1,4 +1,4 @@
-const Users = require("../models/userModel");
+const User = require("../models/userModel");
 const ForgotPasswordRequests = require("../models/forgotPasswordModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -16,7 +16,7 @@ const findUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await Users.findOne({
+    const user = await User.findOne({
       where: {
         email: email,
       },
@@ -53,7 +53,7 @@ const createUser = async (req, res) => {
     bcrypt.hash(password, saltRounds, async (err, hash) => {
       // Store hash in your password DB.
       console.log("err in pasword hashing", err);
-      await Users.create({
+      await User.create({
         name: name,
         phone: phone,
         gender: gender.toLowerCase(),
@@ -74,9 +74,9 @@ const updateUser = async (req, res) => {
   try {
     const { name, email, phone, gender } = req.body;
 
-    //user from token
-    const user = req.user;
-
+    //user from id
+    const {userId} = req.params;
+    const user = await User.findByPk(userId);
     //update
     await user.update({
       name,
@@ -97,7 +97,7 @@ const updatePassword = async (req, res) => {
   try {
     const { email, password } = req.body;
     //find user
-    const user = await Users.findOne({
+    const user = await User.findOne({
       where: {
         email: email,
       },
@@ -158,7 +158,7 @@ const forgotPassword = async (req, res) => {
 
     const { email } = req.body;
 
-    const user = await Users.findOne({
+    const user = await User.findOne({
       where: {
         email: email,
       },
@@ -238,8 +238,26 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findOne({ where: { id, role: "customer" } });
+    if (!user) return res.status(404).send("User not found");
+
+    await user.destroy();
+    res.status(200).json({ message: "Customer deleted successfully" });
+  } catch (error) {
+    console.log("Error in deleting customer ", error);
+    res.status(500).send("Error in deleting customer", error.message);
+  }
+};
+
 const getAllCustomers = async (req, res) => {
-  const users = await User.findAll({ where: { role: 'customer' }, attributes: ['id', 'name','phone','gender', 'email'] });
+  const users = await User.findAll({
+    where: { role: "customer" },
+    attributes: ["id", "name", "phone", "gender", "email"],
+  });
   res.status(200).json({ users });
 };
 
@@ -250,5 +268,6 @@ module.exports = {
   updatePassword,
   forgotPassword,
   resetPassword,
-  getAllCustomers
+  getAllCustomers,
+  deleteUser
 };

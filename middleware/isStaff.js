@@ -1,13 +1,20 @@
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = process.env.SECRET_KEY;
+
 module.exports = async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.user.id);
+    const token = req.header("Authorization");
+    const getUser = jwt.verify(token, SECRET_KEY);
+    const user = await User.findByPk(getUser.UserId);
+
     if (!user) {
       return res.status(404).send("User not found");
     }
     if (user.role !== "staff") {
       return res.status(403).send("Access denied- User is not staff");
     }
+    req.user = user;
     next();
   } catch (error) {
     console.log(error);

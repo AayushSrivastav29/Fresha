@@ -1,10 +1,11 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
 
 const router = express.Router();
 
-router.get('/', userController.getAllCustomers);
+router.get('/',isAdmin, userController.getAllCustomers);
 router.post("/find", userController.findUser);
 router.post("/add", userController.createUser);
 router.post("/update", auth, userController.updateUser);

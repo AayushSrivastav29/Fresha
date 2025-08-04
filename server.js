@@ -18,6 +18,8 @@ const serviceRoute = require('./routes/serviceRoute');
 const staffRoute= require('./routes/staffRoute')
 const appointmentRoute= require('./routes/appointmentRoute')
 const paymentRoute= require('./routes/paymentRoute')
+const reviewRoute= require('./routes/reviewRoute')
+const adminRoute= require('./routes/adminRoute')
 
 const PORT = process.env.PORT;
 
@@ -27,6 +29,8 @@ app.use('/api/service', serviceRoute);
 app.use('/api/staff', staffRoute);
 app.use('/api/appointment', appointmentRoute);
 app.use('/api/payment', paymentRoute);
+app.use('/api/review', reviewRoute);
+app.use('/api/admin', adminRoute);
 
 
 app.get("/", (req, res) => {

@@ -1,4 +1,4 @@
-const Users = require("../models/userModel");
+const User = require("../models/userModel");
 const jwt = require('jsonwebtoken');
 
 const SECRET_KEY=process.env.SECRET_KEY;
@@ -9,7 +9,7 @@ const auth = async (req,res,next) => {
         
         const getUser = jwt.verify(token, SECRET_KEY);
         
-        const user = await Users.findByPk(getUser.UserId);
+        const user = await User.findByPk(getUser.UserId);
         
         if (user) {
             req.user=user;

@@ -233,7 +233,7 @@ const rescheduleAppointment = async (req, res) => {
 
     const isAdmin = req.user.role === "admin";
     const isOwner = req.user.id === appointment.userId;
-    if (!isAdmin && !isOwner) {
+    if (isAdmin || isOwner) {
       return res
         .status(403)
         .send("You are not authorized to modify this appointment");
@@ -245,7 +245,7 @@ const rescheduleAppointment = async (req, res) => {
     }
 
     const service = appointment.Service;
-    const user = appointment.User;
+    const user = await User.findByPk(appointment.userId);
     const startDateTime = new Date(`${date}T${startTime}`);
     const endDateTime = new Date(
       startDateTime.getTime() + service.duration * 60000
@@ -296,14 +296,14 @@ const cancelAppointment = async (req, res) => {
 
     const isAdmin = req.user.role === "admin";
     const isOwner = req.user.id === appointment.userId;
-    if (!isAdmin && !isOwner) {
+    if (isAdmin || isOwner) {
       return res
         .status(403)
         .send("You are not authorized to modify this appointment");
     }
     await appointment.destroy();
     const service = appointment.Service;
-    const user = appointment.User;
+    const user = await User.findByPk(appointment.userId);
 
     const subject = "Appointment cancelled";
     const htmlContent = `
