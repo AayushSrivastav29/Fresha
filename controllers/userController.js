@@ -238,6 +238,11 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const getAllCustomers = async (req, res) => {
+  const users = await User.findAll({ where: { role: 'customer' }, attributes: ['id', 'name','phone','gender', 'email'] });
+  res.status(200).json({ users });
+};
+
 module.exports = {
   findUser,
   createUser,
@@ -245,4 +250,5 @@ module.exports = {
   updatePassword,
   forgotPassword,
   resetPassword,
+  getAllCustomers
 };

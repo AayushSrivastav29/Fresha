@@ -9,7 +9,10 @@ router.get('/:id',servicesController.getServiceById);
 router.post('/create',servicesController.createService);
 router.put('/update/:id',servicesController.updateService);
 router.delete('/delete/:id',servicesController.deleteService);
+//
 router.post('/set-avail/:id',availabilityController.setAvailability);
 router.get('/get-avail/:id',availabilityController.getAvailability);
+router.put('/update-avail/:id',availabilityController.updateAvailability);
+router.delete('/delete-avail/:id',availabilityController.deleteAvailability);
 
 module.exports=router;

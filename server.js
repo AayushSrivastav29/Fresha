@@ -17,6 +17,7 @@ const userRoute = require('./routes/userRoute');
 const serviceRoute = require('./routes/serviceRoute');
 const staffRoute= require('./routes/staffRoute')
 const appointmentRoute= require('./routes/appointmentRoute')
+const paymentRoute= require('./routes/paymentRoute')
 
 const PORT = process.env.PORT;
 
@@ -25,6 +26,7 @@ app.use('/api/user', userRoute);
 app.use('/api/service', serviceRoute);
 app.use('/api/staff', staffRoute);
 app.use('/api/appointment', appointmentRoute);
+app.use('/api/payment', paymentRoute);
 
 
 app.get("/", (req, res) => {

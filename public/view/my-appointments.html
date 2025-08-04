@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Appointments</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h2 class="mb-4">My Appointments</h2>
+      <table class="table table-bordered table-striped" id="appointmentsTable">
+        <thead class="table-dark">
+          <tr>
+            <th>Service</th>
+            <th>Staff</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Review</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="appointmentTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Reschedule Modal -->
+    <div class="modal fade" id="rescheduleModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="rescheduleForm">
+            <div class="modal-header">
+              <h5 class="modal-title">Reschedule Appointment</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <input
+                type="date"
+                id="newDate"
+                class="form-control mb-2"
+                required
+                onchange="fetchAvailableSlots()"
+              />
+              <select id="slotSelect" class="form-control mb-2" required>
+                <option value="">-- Select a Time Slot --</option>
+              </select>
+              <input type="hidden" id="rescheduleId" />
+              <input type="hidden" id="rescheduleStaffId" />
+              <input type="hidden" id="rescheduleServiceId" />
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Reschedule</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Review</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="reviewContent"></div>
+            <div id="reviewFormContainer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/appointment.js"></script>
+  </body>
+</html>

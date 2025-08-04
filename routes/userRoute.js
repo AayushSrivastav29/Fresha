@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
+router.get('/', userController.getAllCustomers);
 router.post("/find", userController.findUser);
 router.post("/add", userController.createUser);
 router.post("/update", auth, userController.updateUser);
