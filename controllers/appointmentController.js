@@ -182,7 +182,7 @@ const bookAppointment = async (req, res) => {
 
 const getMyAppointments = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.user.id;
     const appointments = await Appointment.findAll({
       where: { userId },
       include: [
@@ -233,7 +233,7 @@ const rescheduleAppointment = async (req, res) => {
 
     const isAdmin = req.user.role === "admin";
     const isOwner = req.user.id === appointment.userId;
-    if (isAdmin || isOwner) {
+    if (!isAdmin && !isOwner) {
       return res
         .status(403)
         .send("You are not authorized to modify this appointment");
@@ -296,7 +296,7 @@ const cancelAppointment = async (req, res) => {
 
     const isAdmin = req.user.role === "admin";
     const isOwner = req.user.id === appointment.userId;
-    if (isAdmin || isOwner) {
+    if (!isAdmin && !isOwner) {
       return res
         .status(403)
         .send("You are not authorized to modify this appointment");

@@ -3,7 +3,7 @@ const signupForm=document.getElementById('signupForm');
 
 async function signUpUser(formData) {
   try {
-    const res = await axios.post('http://localhost:2000/api/users/register', formData);
+    const res = await axios.post('http://localhost:5000/api/user/add', formData);
     alert('Signup successful!');
     console.log(res.data);
   } catch (err) {

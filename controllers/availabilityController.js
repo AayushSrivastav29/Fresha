@@ -8,7 +8,7 @@ const setAvailability = async (req, res) => {
       dayOfWeek,
       startTime,
       endTime,
-      ServiceId:ServiceId
+      ServiceId
     });
     res
       .status(201)

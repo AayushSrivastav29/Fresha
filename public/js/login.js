@@ -3,13 +3,13 @@ const loginForm=document.getElementById('loginForm');
 
 async function loginUser(loginData) {
   try {
-    const res = await axios.post('http://localhost:2000/api/users/login', loginData);
+    const res = await axios.post('http://localhost:5000/api/user/find', loginData);
   alert('Login successful!');
     console.log(res.data);
     localStorage.setItem('token', res.data.token);
 localStorage.setItem('user', JSON.stringify(res.data.user));
 
-    window.location.href = '/index.html';
+    window.location.href = '/view/home.html';
   } catch (err) {
     console.error(err);
     alert('Login  failed');
@@ -22,6 +22,6 @@ loginForm.addEventListener('submit',(event)=>{
      const email = form.email.value;
   const password = form.password.value;
   const loginData = { email, password };
-
+  console.log(loginData);
 loginUser(loginData);
 })

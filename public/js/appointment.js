@@ -14,12 +14,12 @@ async function loadAppointments() {
   try {
     let res = null;
     if (user.role === "customer") {
-      res = await axios.get(`${url}/appointments/my`, {
-        headers: { Authorization: `Bearer ${token}` },
+      res = await axios.get(`${url}/appointment/getmy/`, {
+        headers: { Authorization: `${token}` },
       });
     } else if (user.role === "admin" || user.role === "staff") {
-      res = await axios.get(`${url}/appointments/all`, {
-        headers: { Authorization: `Bearer ${token}` },
+      res = await axios.get(`${url}/appointment/all`, {
+        headers: { Authorization: `${token}` },
       });
     }
 
@@ -70,9 +70,9 @@ async function fetchAvailableSlots() {
 
   try {
     const res = await axios.get(
-      `${url}/appointments/available-slots?serviceId=${serviceId}&date=${date}`,
+      `${url}/appointment/avail-slots?serviceId=${serviceId}&date=${date}`,
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
 
@@ -101,8 +101,8 @@ async function cancelAppointment(id) {
   if (!confirm("Cancel this appointment?")) return;
 
   try {
-    await axios.delete(`${url}/appointments/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    await axios.delete(`${url}/appointment/cancel/${id}`, {
+      headers: { Authorization: `${token}` },
     });
     alert("Cancelled");
     loadAppointments();
@@ -131,8 +131,8 @@ async function openReviewModal(appointmentId) {
   currentReview = null;
 
   try {
-    const reviewRes = await axios.get(`${url}/reviews/${appointmentId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const reviewRes = await axios.get(`${url}/review/${appointmentId}`, {
+      headers: { Authorization: `${token}` },
     });
     const review = reviewRes.data.review;
     currentReview = review;
@@ -194,10 +194,10 @@ async function submitReview(e, appointmentId) {
   const rating = e.target.rating.value;
   const comment = e.target.comment.value;
   await axios.post(
-    `${url}/reviews`,
+    `${url}/review/`,
     { appointmentId, rating, comment },
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `${token}` },
     }
   );
   alert("Review submitted");
@@ -208,10 +208,10 @@ async function submitReview(e, appointmentId) {
 async function submitReply(reviewId) {
   const reply = document.getElementById("replyBox").value;
   await axios.put(
-    `/api/reviews/${reviewId}/reply`,
+    `/api/review/reply/${reviewId}`,
     { reply },
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `${token}` },
     }
   );
   alert("Reply sent");
@@ -223,10 +223,10 @@ async function editReview(reviewId) {
   const newComment = prompt("Update your comment:", currentReview.comment);
   const newRating = prompt("Update rating:", currentReview.rating);
   await axios.put(
-    `/api/reviews/${reviewId}`,
+    `/api/review/${reviewId}`,
     { comment: newComment, rating: newRating },
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `${token}` },
     }
   );
   alert("Review updated");
@@ -237,8 +237,8 @@ async function editReview(reviewId) {
 
 async function deleteReview(reviewId) {
   if (!confirm("Delete review?")) return;
-  await axios.delete(`/api/reviews/${reviewId}`, {
-    headers: { Authorization: `Bearer ${token}` },
+  await axios.delete(`/api/review/delete/${reviewId}`, {
+    headers: { Authorization: `${token}` },
   });
   alert("Review deleted");
   bootstrap.Modal.getInstance(document.getElementById("reviewModal")).hide();
@@ -261,10 +261,10 @@ document
 
     try {
       await axios.put(
-        `${url}/appointments/${id}/reschedule`,
+        `${url}/appointment/reschedule/${id}`,
         { date, startTime },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `${token}` },
         }
       );
       alert("Rescheduled successfully!");

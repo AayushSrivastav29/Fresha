@@ -78,7 +78,7 @@ const getPaymentStatus = async (req, res) => {
       }
     }
     await Order.update({ status: orderStatus }, { where: { orderId } });
-    res.status(200).json({ status: orderStatus });
+    res.sendFile("/home/aayush-srivastav/Desktop/Sharpener Prac/Project/Fresha/public/view/home.html");
   } catch (err) {
     console.error("Payment Status Error:", err);
     return res.status(500).json({ message: err.message || "Server error" });
